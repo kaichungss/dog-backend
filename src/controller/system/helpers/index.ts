@@ -48,7 +48,21 @@ const click = [
     .trim()
     .escape(),
 ];
+const comment = [
+  check("dog_id")
+    .notEmpty()
+    .withMessage("dog_id can't be empty")
+    .trim()
+    .escape(),
+  check("comment")
+    .notEmpty()
+    .withMessage("comment can't be empty")
+    .isString()
+    .withMessage("the type is a string")
+    .trim()
+    .escape(),
+];
 
 export const validate = {
-  list, insert, click
+  list, insert, click, comment
 };

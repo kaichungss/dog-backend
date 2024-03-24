@@ -5,6 +5,7 @@ export interface RequestParams {
   page: number;
   limit: number;
   name?: string;
+  id?: number;
 }
 
 export interface DogInfo {
@@ -19,10 +20,15 @@ export interface DogInfo {
 
 export const getCount = (params: RequestParams) => {
   const list: any[] = [];
+  const exist = params.name != null && params.name.length > 0;
   let sql = 'select count(id) count from dog_info';
-  if (params.name != null && params.name.length > 0) {
-    sql += " where lower(name) like ?";
-    list.push("%".concat(params.name).concat("%"))
+  if (exist) {
+    sql += " where lower(name) like ? ";
+    list.push("%".concat(params.name || '').concat("%"))
+  }
+  if (params.id) {
+    sql += (exist ? ' and ' : ' where ') + ' operate_id = ? '
+    list.push(params.id);
   }
   return new Promise((resolve, reject) => {
     pool.query(sql, list, (err, rows: RowDataPacket[]) => {
@@ -38,13 +44,19 @@ export const getCount = (params: RequestParams) => {
 
 export const getAllData = (params: RequestParams) => {
   const exist = params.name != null && params.name.length > 0;
-  const offset = (params.page - 1) * params.limit; // 计算偏移量
+  const offset = (params.page - 1) * params.limit;
   const list: any[] = [];
+  let append = '';
   if (exist) {
+    append += ' where lower(name) like ? '
     list.push("%".concat(params.name || '').concat("%"))
   }
+  if (params.id) {
+    append += (exist ? ' and ' : ' where ') + ' operate_id = ? '
+    list.push(params.id);
+  }
   list.push(offset, params.limit);
-  let sql = 'select s.* from dog_info s,(select id from dog_info ' + (exist ? 'where lower(name) like ?' : '') + ' order by id limit ?,?) t where s.id = t.id';
+  let sql = 'select * from dog_info ' + append + ' order by update_time desc LIMIT ?,?'
   return new Promise((resolve, reject) => {
     pool.query(sql, list, (err, rows) => {
       if (err) {
@@ -91,3 +103,34 @@ export const deleteData = (id: number) => {
     });
   });
 };
+
+
+export const getAllViewData = (params: RequestParams) => {
+  const exist = params.name != null && params.name.length > 0;
+  const offset = (params.page - 1) * params.limit;
+  const list: any[] = [];
+  if (exist) {
+    list.push("%".concat(params.name || '').concat("%"))
+  }
+  list.push(offset, params.limit);
+  let sql = 'SELECT a.*, ' +
+    '    (SELECT COUNT(*) FROM dog_click b WHERE a.id = b.dog_id) AS click_num, ' +
+    '    (SELECT COUNT(*) FROM dog_comment d WHERE a.id = d.dog_id) AS comment_num, ' +
+    '    c.username ' +
+    'FROM (' +
+    'SELECT * FROM dog_info ' + (exist ? 'where lower(name) like ?' : '') +
+    ') a ' +
+    'LEFT JOIN dog_click b ON a.id = b.dog_id ' +
+    'LEFT JOIN user c ON a.operate_id = c.id ' +
+    'GROUP BY a.id, c.username ' +
+    'order by update_time desc LIMIT ?,?'
+  return new Promise((resolve, reject) => {
+    pool.query(sql, list, (err, rows) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(rows)
+      }
+    })
+  })
+}
