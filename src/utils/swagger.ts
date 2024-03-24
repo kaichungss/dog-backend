@@ -10,7 +10,7 @@ const options: swaggerJsdoc.Options = {
       description: 'API Description',
     },
   },
-  apis: [path.join(__dirname, '../router/*.ts')],
+  apis: [path.join(__dirname, '../router/*.ts'), path.join(__dirname, '../router/*/*.ts')],
 };
 const swaggerSpec = swaggerJsdoc(options);
 

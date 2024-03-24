@@ -27,6 +27,18 @@ export const list = async (req: Request, res: Response) => {
   }
 };
 
+export const moreList = async (req: Request, res: Response) => {
+  try {
+    const {currentPage, limit, name} = req.body;
+    const params = {page: currentPage, limit: limit, name: String(name || '')};
+    const allData = await getAllViewData(params);
+    handleSucceed(res, allData, "success");
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+
 export const commentInfo = async (req: Request, res: Response) => {
   const {dog_id} = req.body;
   const allData = await commentData(dog_id);
