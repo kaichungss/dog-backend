@@ -15,7 +15,9 @@ const {app} = expressWs(express());
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+// cross
 app.use(cors());
+// static file
 app.use(express.static(path.join(__dirname, "public")));
 
 
@@ -30,5 +32,8 @@ app.listen(port, () => {
   console.log(`the server restarts：http://127.0.0.1:${port}`);
 });
 
+// swagger api
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
+export default app;
 

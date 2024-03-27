@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { authorityError } from "@/utils/stateHandle";
 import { JWT } from "@/utils/JWT";
 
+// validate token
 export const validateToken = (
   req: Request,
   res: Response,

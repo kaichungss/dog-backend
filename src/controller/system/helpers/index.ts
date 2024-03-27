@@ -24,6 +24,17 @@ const insert = [
     .withMessage("name can't be empty")
     .isString()
     .withMessage("the type is a string")
+    .isLength({min: 1, max: 100})
+    .withMessage('Name must be between 1 and 50 characters')
+    .trim()
+    .escape(),
+  check("breed")
+    .notEmpty()
+    .withMessage("breed can't be empty")
+    .isString()
+    .withMessage("the type is a string")
+    .isLength({min: 1, max: 100})
+    .withMessage('Name must be between 1 and 50 characters')
     .trim()
     .escape(),
   check("describe")
@@ -62,7 +73,7 @@ const comment = [
     .trim()
     .escape(),
 ];
-
+// parameter validation
 export const validate = {
   list, insert, click, comment
 };

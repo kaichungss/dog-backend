@@ -1,5 +1,5 @@
 import type { Response } from "express";
-
+// response info
 export const handleError = (
   res: Response,
   err: string | unknown,

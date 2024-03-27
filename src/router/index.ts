@@ -8,5 +8,4 @@ const router = express.Router();
 router.use("/system", system);
 router.use("/login", login);
 router.use("/register", register);
-
 export default router;

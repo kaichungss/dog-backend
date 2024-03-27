@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { JWT } from "@/utils/JWT";
-import { commentData, insertClickData, insertCommentData } from "@/model/operateInfoModel";
+import { commentData, deleteCommentDataById, insertClickData, insertCommentData } from "@/model/operateInfoModel";
 import { handleError, handleSucceed } from "@/utils/stateHandle";
 import { getAllViewData, getCount } from "@/model/dogInfoModel";
 
@@ -13,10 +13,11 @@ export const click = async (req: Request, res: Response) => {
 
 export const list = async (req: Request, res: Response) => {
   try {
+    const verify = JWT.verify(req);
     const {currentPage, limit, name} = req.body;
     const params = {page: currentPage, limit: limit, name: String(name || '')};
     const count = await getCount(params);
-    const allData = await getAllViewData(params);
+    const allData = await getAllViewData({...params, ...{id: verify.id}});
     const send = {
       list: allData,
       count: count,
@@ -29,8 +30,10 @@ export const list = async (req: Request, res: Response) => {
 
 export const moreList = async (req: Request, res: Response) => {
   try {
+    const verify = JWT.verify(req);
     const {currentPage, limit, name} = req.body;
-    const params = {page: currentPage, limit: limit, name: String(name || '')};
+    const params = {id: verify.id, page: currentPage, limit: limit, name: String(name || '')};
+    // scroll data
     const allData = await getAllViewData(params);
     handleSucceed(res, allData, "success");
   } catch (error) {
@@ -38,7 +41,7 @@ export const moreList = async (req: Request, res: Response) => {
   }
 };
 
-
+// review data
 export const commentInfo = async (req: Request, res: Response) => {
   const {dog_id} = req.body;
   const allData = await commentData(dog_id);
@@ -47,6 +50,12 @@ export const commentInfo = async (req: Request, res: Response) => {
 export const comment = async (req: Request, res: Response) => {
   const {dog_id, comment} = req.body;
   const verify = JWT.verify(req);
-  await insertCommentData({dog_id, operate_id: verify.id, insert_time: new Date(), comment});
+  const data = await insertCommentData({dog_id, operate_id: verify.id, insert_time: new Date(), comment});
+  handleSucceed(res, data);
+}
+
+export const deleteComment = async (req: Request, res: Response) => {
+  const {id} = req.body;
+  await deleteCommentDataById(id);
   handleSucceed(res, "success");
 }

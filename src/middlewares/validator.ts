@@ -3,6 +3,7 @@ import { handleError } from "@/utils/stateHandle";
 
 const {validationResult} = require("express-validator");
 
+// parameter verification result
 export const validateResult = (
   req: Request,
   res: Response,

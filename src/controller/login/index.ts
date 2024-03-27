@@ -6,12 +6,12 @@ import { JWT } from "@/utils/JWT";
 
 export const search = async (req: Request, res: Response) => {
   const {email, password} = req.body;
-
+  // determine the account password
   const info = await getInfoByEmailAndPassword({email, password: md5Hash(password)});
   if (!info.length) {
     handleError(res, "the email address or password is incorrect", 201);
     return;
   }
   const token = JWT.generate(info[0], 60 * 60 + "s");
-  handleSucceed(res, {token, username: info[0].username});
+  handleSucceed(res, {token, username: info[0].username, role: info[0].role});
 };

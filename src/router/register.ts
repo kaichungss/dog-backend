@@ -25,6 +25,7 @@ const router = express.Router();
  */
 router.post("/code", validate.code, validateResult, code);
 
+
 /**
  * @swagger
  * /register/insert:
@@ -38,7 +39,13 @@ router.post("/code", validate.code, validateResult, code);
  *           schema:
  *             type: object
  *             properties:
+ *               username:
+ *                 type: integer
  *               email:
+ *                 type: integer
+ *               password:
+ *                 type: string
+ *               code:
  *                 type: string
  *     responses:
  *       '200':

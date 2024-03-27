@@ -11,6 +11,7 @@ export interface RequestParams {
 export interface DogInfo {
   id?: number
   name?: string;
+  breed?: string;
   describe?: string;
   image?: string;
   insert_time?: Date;
@@ -109,13 +110,15 @@ export const getAllViewData = (params: RequestParams) => {
   const exist = params.name != null && params.name.length > 0;
   const offset = (params.page - 1) * params.limit;
   const list: any[] = [];
+  list.push(params.id);
   if (exist) {
     list.push("%".concat(params.name || '').concat("%"))
   }
   list.push(offset, params.limit);
   let sql = 'SELECT a.*, ' +
-    '    (SELECT COUNT(*) FROM dog_click b WHERE a.id = b.dog_id) AS click_num, ' +
-    '    (SELECT COUNT(*) FROM dog_comment d WHERE a.id = d.dog_id) AS comment_num, ' +
+    '    (SELECT COUNT(1) FROM dog_click b WHERE a.id = b.dog_id) AS click_num, ' +
+    '    (SELECT COUNT(1) FROM dog_comment d WHERE a.id = d.dog_id) AS comment_num, ' +
+    '    (SELECT COUNT(1) FROM dog_favorites c WHERE a.id = c.dog_id AND c.operate_id = ?) AS is_collected,' +
     '    c.username ' +
     'FROM (' +
     'SELECT * FROM dog_info ' + (exist ? 'where lower(name) like ?' : '') +
@@ -134,3 +137,6 @@ export const getAllViewData = (params: RequestParams) => {
     })
   })
 }
+
+
+

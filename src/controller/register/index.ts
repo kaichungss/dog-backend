@@ -23,12 +23,13 @@ export const code = async (req: Request, res: Response) => {
 
 export const insert = async (req: Request, res: Response) => {
   const {username, email, password, role, code} = req.body;
+  // get the local cache verification code
   const val = myCache.get(email);
-  if (!val || val != code) {
+  if (role == 'worker' && (!val || val != code)) {
     handleError(res, "the registration code is incorrect", 201);
     return;
   }
-
+  // determine whether the email address is registered
   const count = await getInfoByEmail(email);
   if (count > 0) {
     handleError(res, "the email address is registered", 201);

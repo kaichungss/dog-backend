@@ -3,18 +3,19 @@ import { Request } from "express";
 
 const secret = "secret_key";
 
+// jwt config
 export const JWT = {
-  generate(value: {}, exprires: string) {
-    return jsonwebtoken.sign(value, secret, {expiresIn: exprires});
+  generate(value: {}, expires: string) {
+    return jsonwebtoken.sign(value, secret, {expiresIn: expires});
   },
 
   verify(req: Request) {
-    const {authorization} = req.headers;
-    if (!authorization) {
+    const {token} = req.headers;
+    if (!token) {
       return null;
     }
     try {
-      return JSON.parse(JSON.stringify(jsonwebtoken.verify(authorization, secret)))
+      return JSON.parse(JSON.stringify(jsonwebtoken.verify(String(token), secret)))
     } catch (e) {
       return false
     }

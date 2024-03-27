@@ -24,13 +24,6 @@ const insert = [
     .withMessage("the type is a string")
     .trim()
     .escape(),
-  check("code")
-    .notEmpty()
-    .withMessage("code can't be empty")
-    .isString()
-    .withMessage("the type is a string")
-    .trim()
-    .escape(),
 ];
 const code = [
   check("email")
@@ -43,7 +36,7 @@ const code = [
     .trim()
     .escape(),
 ];
-
+// parameter validation
 export const validate = {
   code,
   insert,

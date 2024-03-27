@@ -11,14 +11,7 @@ const router = express.Router();
  *   post:
  *     summary:
  *     tags: [Publish]
- *     description: dog info list api
- *     parameters:
- *       - in: header
- *         name: token
- *         required: true
- *         schema:
- *           type: string
- *         description: User ID
+ *     description: publish list api
  *     requestBody:
  *       content:
  *         application/json:
@@ -36,7 +29,80 @@ const router = express.Router();
  *         description: Successful response
  */
 router.post("/list", validateToken, validate.list, validateResult, list);
+
+/**
+ * @swagger
+ * /system/publish/insert:
+ *   post:
+ *     summary:
+ *     tags: [Publish]
+ *     description: publish insert api
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: integer
+ *               breed:
+ *                 type: string
+ *               describe:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ */
 router.post("/insert", validateToken, validate.insert, validateResult, insert);
+
+/**
+ * @swagger
+ * /system/publish/update:
+ *   post:
+ *     summary:
+ *     tags: [Publish]
+ *     description: publish update api
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: integer
+ *               breed:
+ *                 type: string
+ *               describe:
+ *                 type: integer
+ *               image:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ */
 router.post("/update", validateToken, validate.insert, validateResult, update);
-router.get("/delete", validateToken, delData);
+
+/**
+ * @swagger
+ * /system/publish/delete:
+ *   post:
+ *     security: [{apiKeyAuth: []}]
+ *     summary:
+ *     tags: [Publish]
+ *     description: publish delete api
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Successful response
+ */
+router.post("/delete", validateToken, delData);
 export default router;
