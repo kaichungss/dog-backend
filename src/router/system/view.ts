@@ -8,6 +8,7 @@ const router = express.Router();
  * @swagger
  * /system/view/list:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [View]
  *     description: view list api
@@ -33,6 +34,7 @@ router.post("/list", validateToken, validate.list, validateResult, list);
  * @swagger
  * /system/view/moreList:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [View]
  *     description: view moreList api
@@ -58,6 +60,7 @@ router.post("/moreList", validateToken, validate.list, validateResult, moreList)
  * @swagger
  * /system/view/click:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [View]
  *     description: view click api
@@ -79,6 +82,7 @@ router.post("/click", validateToken, validate.click, validateResult, click);
  * @swagger
  * /system/view/comment:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [View]
  *     description: view comment api
@@ -102,6 +106,7 @@ router.post("/comment", validateToken, validate.comment, validateResult, comment
  * @swagger
  * /system/view/comment_data:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [View]
  *     description: view comment data api
@@ -123,6 +128,7 @@ router.post("/comment_data", validateToken, commentInfo);
  * @swagger
  * /system/view/delete_comment:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [View]
  *     description: view delete comment api

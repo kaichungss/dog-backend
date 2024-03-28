@@ -9,6 +9,7 @@ const router = express.Router();
  * @swagger
  * /system/publish/list:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [Publish]
  *     description: publish list api
@@ -34,6 +35,7 @@ router.post("/list", validateToken, validate.list, validateResult, list);
  * @swagger
  * /system/publish/insert:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [Publish]
  *     description: publish insert api
@@ -61,6 +63,7 @@ router.post("/insert", validateToken, validate.insert, validateResult, insert);
  * @swagger
  * /system/publish/update:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [Publish]
  *     description: publish update api

@@ -9,6 +9,7 @@ const router = express.Router();
  * @swagger
  * /system/favorites/list:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [Favorites]
  *     description: favorites list api
@@ -34,8 +35,9 @@ router.post("/list", validateToken, validate.list, validateResult, list);
  * @swagger
  * /system/favorites/moreList:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
- *     tags: [View]
+ *     tags: [Favorites]
  *     description: favorites moreList api
  *     requestBody:
  *       content:
@@ -58,8 +60,9 @@ router.post("/moreList", validateToken, validate.list, validateResult, moreList)
  * @swagger
  * /system/favorites/insert:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
- *     tags: [View]
+ *     tags: [Favorites]
  *     description: favorites insert api
  *     requestBody:
  *       content:

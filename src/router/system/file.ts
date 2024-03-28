@@ -8,6 +8,7 @@ const router = express.Router();
  * @swagger
  * /system/file/upload:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     tags: [File]
  *     summary:
  *     requestBody:
