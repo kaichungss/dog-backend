@@ -44,9 +44,9 @@ const insert = [
     .withMessage("the type is a string")
     .trim()
     .escape(),
-  check("image")
+  check("image_list")
     .notEmpty()
-    .withMessage("image can't be empty")
+    .withMessage("image_list can't be empty")
     .isString()
     .withMessage("the type is a string")
     .trim()
@@ -73,7 +73,20 @@ const comment = [
     .trim()
     .escape(),
 ];
-// parameter validation
+const chat = [
+  check("receive_id")
+    .notEmpty()
+    .withMessage("receive_id can't be empty")
+    .trim()
+    .escape(),
+  check("text")
+    .notEmpty()
+    .withMessage("text can't be empty")
+    .isString()
+    .withMessage("the type is a string")
+    .trim()
+    .escape(),
+];
 export const validate = {
-  list, insert, click, comment
+  list, insert, click, comment, chat
 };

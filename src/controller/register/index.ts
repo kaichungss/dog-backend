@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getInfoByEmail, insertData } from "@/model/userModel";
+import { getInfoByEmail, getOrgCountById, getOrgName, insertData } from "@/model/userModel";
 import { handleError, handleSucceed } from "@/utils/stateHandle";
 import myCache from "@/middlewares/cache";
 import { generateSixDigitCode, md5Hash } from "@/utils/utils";
@@ -22,19 +22,24 @@ export const code = async (req: Request, res: Response) => {
 };
 
 export const insert = async (req: Request, res: Response) => {
-  const {username, email, password, role, code} = req.body;
-  // get the local cache verification code
-  const val = myCache.get(email);
-  if (role == 'worker' && (!val || val != code)) {
-    handleError(res, "the registration code is incorrect", 201);
-    return;
+  const {username, email, password, role, code, org_id} = req.body;
+  if (role == 'worker') {
+    const orgInfo = await getOrgCountById(org_id);
+    if (orgInfo[0].code != code) {
+      handleError(res, "the registration code is incorrect", 201);
+      return;
+    }
   }
-  // determine whether the email address is registered
   const count = await getInfoByEmail(email);
   if (count > 0) {
     handleError(res, "the email address is registered", 201);
     return;
   }
-  await insertData({username, email, password: md5Hash(password), role, insert_time: new Date()});
+  await insertData({username, email, password: md5Hash(password), role, org_id, insert_time: new Date()});
   handleSucceed(res, "success");
+};
+
+export const orgName = async (req: Request, res: Response) => {
+  const data = await getOrgName();
+  handleSucceed(res, data);
 };

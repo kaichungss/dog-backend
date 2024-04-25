@@ -11,9 +11,14 @@ export interface RequestParams {
 export interface DogInfo {
   id?: number
   name?: string;
+  gender?:string;
+  color?:string;
+  size?:string;
+  sterilized?:string;
+  vaccinated?:string;
   breed?: string;
   describe?: string;
-  image?: string;
+  image_list?: string;
   insert_time?: Date;
   update_time?: Date;
   operate_id?: number;

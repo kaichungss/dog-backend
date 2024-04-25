@@ -13,14 +13,25 @@ export const delData = async (req: Request, res: Response) => {
 };
 
 export const insert = async (req: Request, res: Response) => {
-  const {name, breed, describe, image} = req.body;
+  const {
+    name, breed, describe, image_list, gender,
+    color,
+    size,
+    sterilized,
+    vaccinated,
+  } = req.body;
   const verify = JWT.verify(req);
 
   await insertData({
     name,
+    gender,
+    color,
+    size,
+    sterilized,
+    vaccinated,
     breed,
     describe,
-    image: image,
+    image_list,
     insert_time: new Date(),
     update_time: new Date(),
     operate_id: verify.id
@@ -53,7 +64,7 @@ export const update = async (req: Request, res: Response) => {
     name,
     breed,
     describe,
-    image: decodeURIComponent(image),
+    image_list: decodeURIComponent(image),
     update_time: new Date()
   });
   handleSucceed(res, "success");

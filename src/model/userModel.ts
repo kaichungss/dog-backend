@@ -6,6 +6,7 @@ export interface UserModel {
   username: string;
   email: string;
   password: string;
+  org_id: number;
   role: string;
   insert_time: Date;
 }
@@ -50,6 +51,7 @@ export const getInfoByEmailAndPassword = ({
             username: row.username,
             email: row.email,
             password: row.password,
+            org_id: row.org_id,
             role: row.role,
             insert_time: row.insert_time
           };
@@ -60,3 +62,40 @@ export const getInfoByEmailAndPassword = ({
   })
 }
 
+export const getOrgName = () => {
+  return new Promise((resolve, reject) => {
+    pool.query('select id, name from organization', [], (err, results: RowDataPacket[]) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(results)
+      }
+    })
+  })
+}
+
+export interface OrgInfo {
+  id: number
+  name: string;
+  code: string;
+}
+
+export const getOrgCountById = (
+  id: number): Promise<OrgInfo[]> => {
+  return new Promise((resolve, reject) => {
+    pool.query('select * from organization where id = ?', [id], (err, results: RowDataPacket[]) => {
+      if (err) {
+        reject(err)
+      } else {
+        const users: OrgInfo[] = results.map(row => {
+          return {
+            id: row.id,
+            name: row.name,
+            code: row.code,
+          };
+        });
+        resolve(users);
+      }
+    })
+  })
+}

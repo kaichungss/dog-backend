@@ -24,6 +24,14 @@ export interface FavoriteInfo {
   insert_time: Date;
 }
 
+export interface Message {
+  id?: number;
+  text?: string;
+  sender_id?: number;
+  receive_id?: number;
+  insert_time: Date;
+}
+
 export const insertClickData = (data: ClickInfo) => {
   return new Promise((resolve, reject) => {
     pool.query('insert into dog_click set ? ', data, (error, results) => {
@@ -185,3 +193,52 @@ export const getAllFavoritesData = (params: RequestParams) => {
     })
   })
 }
+
+export const chatInfo = (id: number, receivedId: number) => {
+  let sql = 'select * , (SELECT username FROM user b WHERE a.sender_id = b.id) AS sender_name ,(SELECT username FROM user b WHERE a.receive_id = b.id) AS receive_name from chat_info a' +
+    ' where (a.sender_id = ? and a.receive_id = ?) or (a.sender_id = ? and a.receive_id = ?) order by a.insert_time'
+  return new Promise((resolve, reject) => {
+    pool.query(sql, [id, receivedId, receivedId, id], (err, rows) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(rows)
+      }
+    })
+  })
+}
+
+
+export const insertChat = (data: Message) => {
+  return new Promise((resolve, reject) => {
+    pool.query('insert into chat_info set ? ', data, (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+
+export const users = (id: number, name: string) => {
+  const exist = name != null && name.length > 0;
+  const list: any[] = [];
+  list.push(id);
+  let sql = 'select id , username from user where id !=?'
+  sql += (exist ? ' and lower(username) like ?' : '')
+  if (exist) {
+    list.push("%".concat(name || '').concat("%"))
+  }
+  return new Promise((resolve, reject) => {
+    pool.query(sql, list, (err, rows) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(rows)
+      }
+    })
+  })
+}
+

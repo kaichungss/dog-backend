@@ -1,79 +1,79 @@
+import { validateResult, validateToken } from "@/middlewares";
+import { addChat, list, userList } from "@/controller/system/chat";
 import express from "express";
-import { validate } from "@/controller/register/helpers";
-import { validateResult } from "@/middlewares";
-import { code, insert, orgName } from "@/controller/register";
+import { validate } from "@/controller/system/helpers";
 
 const router = express.Router();
+
 /**
  * @swagger
- * /register/code:
+ * /system/chat/list:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
- *     tags: [Register]
- *     description: register code api
+ *     tags: [Chat]
+ *     description: view chat api
  *     requestBody:
  *       content:
  *         application/json:
  *           schema:
  *             type: object
  *             properties:
- *               email:
- *                 type: string
+ *               receivedId:
+ *                 type: integer
  *     responses:
  *       '200':
  *         description: Successful response
  */
-router.post("/code", validate.code, validateResult, code);
-
+router.post("/list", validateToken, list);
 
 /**
  * @swagger
- * /register/insert:
+ * /system/chat/addChat:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
- *     tags: [Register]
- *     description: register api
+ *     tags: [Chat]
+ *     description: view chat api
  *     requestBody:
  *       content:
  *         application/json:
  *           schema:
  *             type: object
  *             properties:
- *               username:
+ *               receive_id:
  *                 type: integer
- *               email:
- *                 type: integer
- *               password:
+ *               text:
  *                 type: string
- *               role:
- *                 type: string
- *               code:
- *                 type: string
- *               org_id:
- *                 type: integer
  *     responses:
  *       '200':
  *         description: Successful response
  */
-router.post("/insert", validate.insert, validateResult, insert);
+router.post("/addChat", validateToken, validate.chat, validateResult, addChat);
 
 
 /**
  * @swagger
- * /register/orgName:
- *   post:
+ * /system/chat/userList:
+ *   get:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
- *     tags: [Register]
- *     description: register orgName api
+ *     tags: [Chat]
+ *     description: view chat api
  *     requestBody:
  *       content:
  *         application/json:
  *           schema:
  *             type: object
  *             properties:
+ *               receive_id:
+ *                 type: integer
+ *               text:
+ *                 type: string
  *     responses:
  *       '200':
  *         description: Successful response
  */
-router.post("/orgName", orgName);
+router.post("/userList", validateToken, userList);
+
 export default router;
