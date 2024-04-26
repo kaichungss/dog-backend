@@ -1,6 +1,6 @@
 import { validateResult, validateToken } from "@/middlewares";
 import { validate } from "@/controller/system/helpers";
-import { click, comment, commentInfo, deleteComment, list, moreList } from "@/controller/system/view";
+import { click, comment, commentInfo, deleteComment, detail, list, moreList } from "@/controller/system/view";
 import express from "express";
 
 const router = express.Router();
@@ -29,6 +29,28 @@ const router = express.Router();
  *         description: Successful response
  */
 router.post("/list", validateToken, validate.list, validateResult, list);
+
+/**
+ * @swagger
+ * /system/view/detail:
+ *   post:
+ *     security: [{apiKeyAuth: []}]
+ *     summary:
+ *     tags: [View]
+ *     description: view detail api
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ */
+router.post("/detail", validateToken, detail);
 
 /**
  * @swagger

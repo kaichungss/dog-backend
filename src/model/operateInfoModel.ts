@@ -139,13 +139,28 @@ export const deleteFavoritesData = (dog_id: number, op_id: number) => {
 export const getFavoritesCount = (params: RequestParams) => {
   const list: any[] = [];
   list.push(params.id);
-  const exist = params.name != null && params.name.length > 0;
+  const existName = params.name != null && params.name.length > 0;
+  const existBreed = params.breed != null && params.breed.length > 0;
+  const existSize = params.size != null && params.size.length > 0;
   let sql = 'select count(1) count from' +
     ' (select * from dog_favorites) f' +
     ' JOIN dog_info a ON f.dog_id = a.id and f.operate_id = ? ';
-  if (exist) {
-    sql += " and lower(name) like ? ";
-    list.push("%".concat(params.name || '').concat("%"))
+  if (existName || existBreed || existSize) {
+    sql += ' WHERE';
+    if (existName) {
+      sql += " LOWER(name) LIKE ? ";
+      list.push("%".concat(params.name || '').concat("%"));
+    }
+    if (existBreed) {
+      if (existName) sql += ' AND';
+      sql += " breed IN (?)";
+      list.push(params.breed);
+    }
+    if (existSize) {
+      if (existName || existBreed) sql += ' AND';
+      sql += " size IN (?)";
+      list.push(params.size);
+    }
   }
   return new Promise((resolve, reject) => {
     pool.query(sql, list, (err, rows: RowDataPacket[]) => {
@@ -167,6 +182,16 @@ export const getAllFavoritesData = (params: RequestParams) => {
   if (exist) {
     list.push("%".concat(params.name || '').concat("%"))
   }
+  if (params.breed?.length) {
+    params.breed.forEach((breed) => {
+      list.push(breed);
+    });
+  }
+  if (params.size?.length) {
+    params.size.forEach((size) => {
+      list.push(size);
+    });
+  }
   list.push(offset, params.limit);
   let sql = ' SELECT a.*, ' +
     '    (SELECT COUNT(1) FROM dog_click b WHERE a.id = b.dog_id) AS click_num, ' +
@@ -178,8 +203,16 @@ export const getAllFavoritesData = (params: RequestParams) => {
     ' JOIN dog_info a ON f.dog_id = a.id' +
     ' LEFT JOIN dog_click b ON a.id = b.dog_id ' +
     ' LEFT JOIN user c ON a.operate_id = c.id ' +
-    ' WHERE f.operate_id = ? ' +
-    (exist ? 'and lower(name) like ?' : '') +
+    ' WHERE f.operate_id = ? '
+  if (params.breed?.length || params.size?.length) {
+    if (params.breed?.length) {
+      sql += ' AND breed IN (?)';
+    }
+    if (params.size?.length) {
+      sql += ' AND size IN (?)';
+    }
+  }
+  sql += (exist ? 'and lower(name) like ?' : '') +
     ' GROUP BY a.id, c.username ' +
     ' ORDER BY insert_timestamp DESC' +
     ' LIMIT ?,?'

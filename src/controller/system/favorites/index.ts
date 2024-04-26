@@ -12,8 +12,8 @@ import { handleError, handleSucceed } from "@/utils/stateHandle";
 export const list = async (req: Request, res: Response) => {
   try {
     const verify = JWT.verify(req);
-    const {currentPage, limit, name} = req.body;
-    const params = {id: verify.id, page: currentPage, limit: limit, name: String(name || '')};
+    const {currentPage, limit, name, size, breed} = req.body;
+    const params = {id: verify.id,page: currentPage, limit: limit, name: String(name || ''), size, breed};
     const count = await getFavoritesCount(params);
     const allData = await getAllFavoritesData(params);
     const send = {
@@ -31,7 +31,6 @@ export const moreList = async (req: Request, res: Response) => {
     const verify = JWT.verify(req);
     const {currentPage, limit, name} = req.body;
     const params = {id: verify.id, page: currentPage, limit: limit, name: String(name || '')};
-    // scroll data
     const allData = await getAllFavoritesData(params);
     handleSucceed(res, allData, "success");
   } catch (error) {

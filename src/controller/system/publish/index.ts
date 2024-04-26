@@ -59,12 +59,23 @@ export const list = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
-  const {id, name, breed, describe, image} = req.body;
+  const {
+    id, name, breed, describe, image_list, gender,
+    color,
+    size,
+    sterilized,
+    vaccinated,
+  } = req.body;
   await updateData(id, {
     name,
+    gender,
+    color,
+    size,
+    sterilized,
+    vaccinated,
     breed,
     describe,
-    image_list: decodeURIComponent(image),
+    image_list,
     update_time: new Date()
   });
   handleSucceed(res, "success");

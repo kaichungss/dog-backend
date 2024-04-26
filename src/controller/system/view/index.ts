@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { JWT } from "@/utils/JWT";
 import { commentData, deleteCommentDataById, insertClickData, insertCommentData } from "@/model/operateInfoModel";
 import { handleError, handleSucceed } from "@/utils/stateHandle";
-import { getAllViewData, getCount } from "@/model/dogInfoModel";
+import { getAllViewData, getCount, getDetailData } from "@/model/dogInfoModel";
 
 export const click = async (req: Request, res: Response) => {
   const {dog_id} = req.body;
@@ -14,8 +14,8 @@ export const click = async (req: Request, res: Response) => {
 export const list = async (req: Request, res: Response) => {
   try {
     const verify = JWT.verify(req);
-    const {currentPage, limit, name} = req.body;
-    const params = {page: currentPage, limit: limit, name: String(name || '')};
+    const {currentPage, limit, name, size, breed} = req.body;
+    const params = {page: currentPage, limit: limit, name: String(name || ''), size, breed};
     const count = await getCount(params);
     const allData = await getAllViewData({...params, ...{id: verify.id}});
     const send = {
@@ -28,12 +28,21 @@ export const list = async (req: Request, res: Response) => {
   }
 };
 
+export const detail = async (req: Request, res: Response) => {
+  try {
+    const {id} = req.body;
+    const allData = await getDetailData(id);
+    handleSucceed(res, allData, "success");
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
 export const moreList = async (req: Request, res: Response) => {
   try {
     const verify = JWT.verify(req);
-    const {currentPage, limit, name} = req.body;
-    const params = {id: verify.id, page: currentPage, limit: limit, name: String(name || '')};
-    // scroll data
+    const {currentPage, limit, name, size, breed} = req.body;
+    const params = {id: verify.id,page: currentPage, limit: limit, name: String(name || ''), size, breed};
     const allData = await getAllViewData(params);
     handleSucceed(res, allData, "success");
   } catch (error) {
