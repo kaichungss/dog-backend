@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
-import { getInfoByEmailAndPassword, getOrgCountById } from "@/model/userModel";
+import { getInfoByEmailAndPassword } from "@/model/userModel";
 import { md5Hash } from "@/utils/utils";
 import { handleError, handleSucceed } from "@/utils/stateHandle";
 import { JWT } from "@/utils/JWT";
 
+/**
+ * Handles the user search request, validates user information, and returns the corresponding result.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @returns {Promise<void>} - No return value.
+ */
 export const search = async (req: Request, res: Response) => {
   const {email, password} = req.body;
   const info = await getInfoByEmailAndPassword({email, password: md5Hash(password)});

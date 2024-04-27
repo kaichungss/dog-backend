@@ -4,6 +4,12 @@ import { commentData, deleteCommentDataById, insertClickData, insertCommentData 
 import { handleError, handleSucceed } from "@/utils/stateHandle";
 import { getAllViewData, getCount, getDetailData } from "@/model/dogInfoModel";
 
+/**
+ * Handles the user search request, validates user information, and returns the corresponding result.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @returns {Promise<void>} - No return value.
+ */
 export const click = async (req: Request, res: Response) => {
   const {dog_id} = req.body;
   const verify = JWT.verify(req);
@@ -42,7 +48,7 @@ export const moreList = async (req: Request, res: Response) => {
   try {
     const verify = JWT.verify(req);
     const {currentPage, limit, name, size, breed} = req.body;
-    const params = {id: verify.id,page: currentPage, limit: limit, name: String(name || ''), size, breed};
+    const params = {id: verify.id, page: currentPage, limit: limit, name: String(name || ''), size, breed};
     const allData = await getAllViewData(params);
     handleSucceed(res, allData, "success");
   } catch (error) {

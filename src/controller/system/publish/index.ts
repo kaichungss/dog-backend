@@ -4,6 +4,12 @@ import { handleError, handleSucceed } from "@/utils/stateHandle";
 import { JWT } from "@/utils/JWT";
 import { deleteClickData, deleteCommentDataByDogId } from "@/model/operateInfoModel";
 
+/**
+ * Handles the user search request, validates user information, and returns the corresponding result.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @returns {Promise<void>} - No return value.
+ */
 export const delData = async (req: Request, res: Response) => {
   const {id} = req.body;
   await deleteData(id);

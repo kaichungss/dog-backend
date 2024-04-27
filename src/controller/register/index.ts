@@ -5,6 +5,12 @@ import myCache from "@/middlewares/cache";
 import { generateSixDigitCode, md5Hash } from "@/utils/utils";
 import { JWT } from "@/utils/JWT";
 
+/**
+ * Handles the user search request, validates user information, and returns the corresponding result.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @returns {Promise<void>} - No return value.
+ */
 export const code = async (req: Request, res: Response) => {
   const {email} = req.body;
   const count = await getInfoByEmail(email);
@@ -39,7 +45,12 @@ export const insert = async (req: Request, res: Response) => {
   await insertData({username, email, password: md5Hash(password), role, org_id, insert_time: new Date()});
   handleSucceed(res, "success");
 };
-
+/**
+ * Handles the user search request, validates user information, and returns the corresponding result.
+ * @param {Request} req - The Express request object.
+ * @param {Response} res - The Express response object.
+ * @returns {Promise<void>} - No return value.
+ */
 export const updateUser = async (req: Request, res: Response) => {
   const {username, role, code, org_id} = req.body;
   const verify = JWT.verify(req);
