@@ -1,7 +1,7 @@
 import express from "express";
 import { validate } from "@/controller/register/helpers";
-import { validateResult } from "@/middlewares";
-import { code, insert, orgName } from "@/controller/register";
+import { validateResult, validateToken } from "@/middlewares";
+import { code, insert, orgName, updateUser } from "@/controller/register";
 
 const router = express.Router();
 /**
@@ -76,4 +76,5 @@ router.post("/insert", validate.insert, validateResult, insert);
  *         description: Successful response
  */
 router.post("/orgName", orgName);
+
 export default router;

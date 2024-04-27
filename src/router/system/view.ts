@@ -2,6 +2,7 @@ import { validateResult, validateToken } from "@/middlewares";
 import { validate } from "@/controller/system/helpers";
 import { click, comment, commentInfo, deleteComment, detail, list, moreList } from "@/controller/system/view";
 import express from "express";
+import { updateUser } from "@/controller/register";
 
 const router = express.Router();
 /**
@@ -167,4 +168,34 @@ router.post("/comment_data", validateToken, commentInfo);
  *         description: Successful response
  */
 router.post("/delete_comment", validateToken, deleteComment);
+
+
+
+
+/**
+ * @swagger
+ * /system/view/updateUser:
+ *   post:
+ *     summary:
+ *     tags: [Profile]
+ *     description: updateUser api
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: integer
+ *               role:
+ *                 type: string
+ *               code:
+ *                 type: string
+ *               org_id:
+ *                 type: integer
+ *     responses:
+ *       '200':
+ *         description: Successful response
+ */
+router.post("/updateUser",validateToken,  updateUser);
 export default router;

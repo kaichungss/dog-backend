@@ -264,6 +264,7 @@ export const users = (id: number, name: string) => {
   if (exist) {
     list.push("%".concat(name || '').concat("%"))
   }
+  sql+=' order by username'
   return new Promise((resolve, reject) => {
     pool.query(sql, list, (err, rows) => {
       if (err) {

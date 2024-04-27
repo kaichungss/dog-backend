@@ -23,6 +23,18 @@ export const insertData = (data: UserModel) => {
   });
 };
 
+export const updateInfo = (data: {username:string, role:string, org_id:number},id:number) => {
+  return new Promise((resolve, reject) => {
+    pool.query('update user set ? where id = ?', [data,id], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
 export const getInfoByEmail: (email: string) => Promise<number> = (email: string) => {
   return new Promise((resolve, reject) => {
     pool.query('select count(id) count from user where email = ?', [email], (err, results: RowDataPacket[]) => {

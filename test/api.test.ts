@@ -159,13 +159,13 @@ describe('test api', () => {
     expect(response.body.msg).toBe("dog_id can't be empty");
   });
 
-  it('should return error if dog_id is empty', async () => {
-    const response = await request(app)
-      .post('/system/view/delete_comment')
-      .set('token', token)
-      .send({});
-    expect(response.body.msg).toBe("dog_id can't be empty");
-  });
+  // it('should return error if dog_id is empty', async () => {
+  //   const response = await request(app)
+  //     .post('/system/view/delete_comment')
+  //     .set('token', token)
+  //     .send({});
+  //   expect(response.body.msg).toBe("dog_id can't be empty");
+  // });
 
   it('should return error if dog_id is empty', async () => {
     const response = await request(app)

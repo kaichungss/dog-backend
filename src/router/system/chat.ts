@@ -55,7 +55,7 @@ router.post("/addChat", validateToken, validate.chat, validateResult, addChat);
 /**
  * @swagger
  * /system/chat/userList:
- *   get:
+ *   post:
  *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [Chat]

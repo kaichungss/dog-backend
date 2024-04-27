@@ -11,7 +11,6 @@ export const search = async (req: Request, res: Response) => {
     handleError(res, "the email address or password is incorrect", 201);
     return;
   }
-  const orgInfo = await getOrgCountById(info[0].org_id);
   const token = JWT.generate(info[0], 60 * 60 + "s");
   handleSucceed(res, {
     token,
@@ -19,6 +18,6 @@ export const search = async (req: Request, res: Response) => {
     username: info[0].username,
     role: info[0].role,
     id: info[0].id,
-    org_name: orgInfo.length > 0 ? orgInfo[0].name : ''
+    org_id: info[0].org_id
   });
 };

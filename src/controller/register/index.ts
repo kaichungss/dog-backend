@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { getInfoByEmail, getOrgCountById, getOrgName, insertData } from "@/model/userModel";
+import { getInfoByEmail, getOrgCountById, getOrgName, insertData, updateInfo } from "@/model/userModel";
 import { handleError, handleSucceed } from "@/utils/stateHandle";
 import myCache from "@/middlewares/cache";
 import { generateSixDigitCode, md5Hash } from "@/utils/utils";
+import { JWT } from "@/utils/JWT";
 
 export const code = async (req: Request, res: Response) => {
   const {email} = req.body;
@@ -36,6 +37,20 @@ export const insert = async (req: Request, res: Response) => {
     return;
   }
   await insertData({username, email, password: md5Hash(password), role, org_id, insert_time: new Date()});
+  handleSucceed(res, "success");
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  const {username, role, code, org_id} = req.body;
+  const verify = JWT.verify(req);
+  if (role == 'worker') {
+    const orgInfo = await getOrgCountById(org_id);
+    if (orgInfo[0].code != code) {
+      handleError(res, "the registration code is incorrect", 201);
+      return;
+    }
+  }
+  await updateInfo({username, role, org_id}, verify.id);
   handleSucceed(res, "success");
 };
 
