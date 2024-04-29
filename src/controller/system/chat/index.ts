@@ -31,7 +31,7 @@ export const userList = async (req: Request, res: Response) => {
   try {
     const verify = JWT.verify(req);
     const {name} = req.body;
-    const list = await users(verify.id,name);
+    const list = await users(verify.id, name);
     handleSucceed(res, list, "success");
   } catch (error) {
     handleError(res, error);

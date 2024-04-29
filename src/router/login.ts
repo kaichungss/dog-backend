@@ -10,7 +10,7 @@ const router = express.Router();
  *   post:
  *     summary:
  *     tags: [Login]
- *     description: login api
+ *     description: Login to your account and password to obtain a token
  *     requestBody:
  *       content:
  *         application/json:

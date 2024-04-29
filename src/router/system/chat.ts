@@ -66,9 +66,7 @@ router.post("/addChat", validateToken, validate.chat, validateResult, addChat);
  *           schema:
  *             type: object
  *             properties:
- *               receive_id:
- *                 type: integer
- *               text:
+ *               name:
  *                 type: string
  *     responses:
  *       '200':

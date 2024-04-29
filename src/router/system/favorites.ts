@@ -10,7 +10,7 @@ const router = express.Router();
  * /system/favorites/list:
  *   post:
  *     security: [{apiKeyAuth: []}]
- *     summary:
+ *     summary: favorites list api
  *     tags: [Favorites]
  *     description: favorites list api
  *     requestBody:
@@ -25,6 +25,14 @@ const router = express.Router();
  *                 type: integer
  *               name:
  *                 type: string
+ *               size:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               breed:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       '200':
  *         description: Successful response
@@ -51,6 +59,14 @@ router.post("/list", validateToken, validate.list, validateResult, list);
  *                 type: integer
  *               name:
  *                 type: string
+ *               size:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               breed:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       '200':
  *         description: Successful response

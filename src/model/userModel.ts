@@ -23,9 +23,9 @@ export const insertData = (data: UserModel) => {
   });
 };
 
-export const updateInfo = (data: {username:string, role:string, org_id:number},id:number) => {
+export const updateInfo = (data: { username: string, role: string, org_id: number }, id: number) => {
   return new Promise((resolve, reject) => {
-    pool.query('update user set ? where id = ?', [data,id], (error, results) => {
+    pool.query('update user set ? where id = ?', [data, id], (error, results) => {
       if (error) {
         reject(error);
       } else {

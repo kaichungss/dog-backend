@@ -46,12 +46,22 @@ router.post("/list", validateToken, validate.list, validateResult, list);
  *             type: object
  *             properties:
  *               name:
- *                 type: integer
+ *                 type: string
+ *               vaccinated:
+ *                 type: string
+ *               sterilized:
+ *                 type: string
+ *               size:
+ *                 type: string
+ *               color:
+ *                 type: string
  *               breed:
+ *                 type: string
+ *               gender:
  *                 type: string
  *               describe:
  *                 type: string
- *               image:
+ *               image_list:
  *                 type: string
  *     responses:
  *       '200':
@@ -74,12 +84,22 @@ router.post("/insert", validateToken, validate.insert, validateResult, insert);
  *             type: object
  *             properties:
  *               name:
- *                 type: integer
+ *                 type: string
+ *               vaccinated:
+ *                 type: string
+ *               sterilized:
+ *                 type: string
+ *               size:
+ *                 type: string
+ *               color:
+ *                 type: string
  *               breed:
  *                 type: string
+ *               gender:
+ *                 type: string
  *               describe:
- *                 type: integer
- *               image:
+ *                 type: string
+ *               image_list:
  *                 type: string
  *     responses:
  *       '200':

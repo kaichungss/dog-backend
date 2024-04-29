@@ -18,7 +18,7 @@ export const list = async (req: Request, res: Response) => {
   try {
     const verify = JWT.verify(req);
     const {currentPage, limit, name, size, breed} = req.body;
-    const params = {id: verify.id,page: currentPage, limit: limit, name: String(name || ''), size, breed};
+    const params = {id: verify.id, page: currentPage, limit: limit, name: String(name || ''), size, breed};
     const count = await getFavoritesCount(params);
     const allData = await getAllFavoritesData(params);
     const send = {

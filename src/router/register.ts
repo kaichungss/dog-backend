@@ -1,28 +1,9 @@
 import express from "express";
 import { validate } from "@/controller/register/helpers";
-import { validateResult, validateToken } from "@/middlewares";
-import { code, insert, orgName, updateUser } from "@/controller/register";
+import { validateResult } from "@/middlewares";
+import { code, insert, orgName } from "@/controller/register";
 
 const router = express.Router();
-/**
- * @swagger
- * /register/code:
- *   post:
- *     summary:
- *     tags: [Register]
- *     description: register code api
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *     responses:
- *       '200':
- *         description: Successful response
- */
 router.post("/code", validate.code, validateResult, code);
 
 
@@ -40,9 +21,9 @@ router.post("/code", validate.code, validateResult, code);
  *             type: object
  *             properties:
  *               username:
- *                 type: integer
+ *                 type: string
  *               email:
- *                 type: integer
+ *                 type: string
  *               password:
  *                 type: string
  *               role:

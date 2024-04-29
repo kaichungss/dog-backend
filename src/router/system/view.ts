@@ -25,6 +25,14 @@ const router = express.Router();
  *                 type: integer
  *               name:
  *                 type: string
+ *               size:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               breed:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       '200':
  *         description: Successful response
@@ -73,6 +81,14 @@ router.post("/detail", validateToken, detail);
  *                 type: integer
  *               name:
  *                 type: string
+ *               size:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               breed:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       '200':
  *         description: Successful response
@@ -176,6 +192,7 @@ router.post("/delete_comment", validateToken, deleteComment);
  * @swagger
  * /system/view/updateUser:
  *   post:
+ *     security: [{apiKeyAuth: []}]
  *     summary:
  *     tags: [Profile]
  *     description: updateUser api
@@ -186,7 +203,7 @@ router.post("/delete_comment", validateToken, deleteComment);
  *             type: object
  *             properties:
  *               username:
- *                 type: integer
+ *                 type: string
  *               role:
  *                 type: string
  *               code:
@@ -197,5 +214,5 @@ router.post("/delete_comment", validateToken, deleteComment);
  *       '200':
  *         description: Successful response
  */
-router.post("/updateUser",validateToken,  updateUser);
+router.post("/updateUser", validateToken, updateUser);
 export default router;
