@@ -23,7 +23,7 @@ export const list = async (req: Request, res: Response) => {
     const {currentPage, limit, name, size, breed} = req.body;
     const params = {page: currentPage, limit: limit, name: String(name || ''), size, breed};
     const count = await getCount(params);
-    const allData = await getAllViewData({...params, ...{id: verify.id}});
+    const allData = await getAllViewData({...params, ...{id: verify?.id || 0}});
     const send = {
       list: allData,
       count: count,
@@ -48,7 +48,7 @@ export const moreList = async (req: Request, res: Response) => {
   try {
     const verify = JWT.verify(req);
     const {currentPage, limit, name, size, breed} = req.body;
-    const params = {id: verify.id, page: currentPage, limit: limit, name: String(name || ''), size, breed};
+    const params = {id: verify?.id || 0, page: currentPage, limit: limit, name: String(name || ''), size, breed};
     const allData = await getAllViewData(params);
     handleSucceed(res, allData, "success");
   } catch (error) {

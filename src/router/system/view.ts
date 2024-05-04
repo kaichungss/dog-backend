@@ -37,7 +37,7 @@ const router = express.Router();
  *       '200':
  *         description: Successful response
  */
-router.post("/list", validateToken, validate.list, validateResult, list);
+router.post("/list", validate.list, validateResult, list);
 
 /**
  * @swagger
@@ -59,7 +59,7 @@ router.post("/list", validateToken, validate.list, validateResult, list);
  *       '200':
  *         description: Successful response
  */
-router.post("/detail", validateToken, detail);
+router.post("/detail", detail);
 
 /**
  * @swagger
@@ -93,7 +93,7 @@ router.post("/detail", validateToken, detail);
  *       '200':
  *         description: Successful response
  */
-router.post("/moreList", validateToken, validate.list, validateResult, moreList);
+router.post("/moreList", validate.list, validateResult, moreList);
 
 /**
  * @swagger
@@ -161,7 +161,7 @@ router.post("/comment", validateToken, validate.comment, validateResult, comment
  *       '200':
  *         description: Successful response
  */
-router.post("/comment_data", validateToken, commentInfo);
+router.post("/comment_data", commentInfo);
 
 /**
  * @swagger
@@ -184,8 +184,6 @@ router.post("/comment_data", validateToken, commentInfo);
  *         description: Successful response
  */
 router.post("/delete_comment", validateToken, deleteComment);
-
-
 
 
 /**
