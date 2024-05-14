@@ -27,3 +27,8 @@ export const search = async (req: Request, res: Response) => {
     org_id: info[0].org_id
   });
 };
+
+export const is_login = async (req: Request, res: Response) => {
+  const verify = JWT.verify(req);
+  handleSucceed(res, verify != null);
+};

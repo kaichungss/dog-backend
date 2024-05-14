@@ -1,7 +1,7 @@
 import express from "express";
 import { validate } from "@/controller/login/helpers/";
 import { validateResult } from "@/middlewares";
-import { search } from "@/controller/login";
+import { is_login, search } from "@/controller/login";
 
 const router = express.Router();
 /**
@@ -26,5 +26,5 @@ const router = express.Router();
  *         description: Successful response
  */
 router.post("/", validate.login, validateResult, search);
-
+router.post("/is_login", is_login);
 export default router;
